@@ -45,3 +45,16 @@
   background-color: #0000000c;
   border-bottom: 1px solid white;
 }
+
+.submitButton{
+  width: 60%;
+  height: 2em;
+  border: none;
+  box-shadow: 5px 5px 0px 0px #00000034;
+  border-radius: 5px;
+
+  &:hover{
+    background-color: #e3eeff;
+    cursor: pointer;
+  }
+}
