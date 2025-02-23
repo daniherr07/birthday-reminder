@@ -7,7 +7,7 @@ export default function Home() {
 
 
       <div>
-        <p>Landing Page bonita :)</p>
+        <p>Un dashboard bonito :3</p>
       </div>
     </>
 

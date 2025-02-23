@@ -8,15 +8,15 @@ let connectionParams = GetDBSettings()
 
 export async function POST(request) {
   try {
-    const { username, password} = await request.json();
-    console.log(username, password)
+    const { userInput, password} = await request.json();
+    console.log(userInput, password)
 
 
     const connection = await mysql.createConnection(connectionParams)
 
-    let query = 'SELECT * FROM prueba where nombre = ? and password = ?'
+    let query = 'SELECT * FROM users where username = ? or email = ? and password = ?'
 
-    const values = [username, password]
+    const values = [userInput, userInput, password]
     const [results, fields] = await connection.execute(query, values)
 
     let login = false
@@ -25,10 +25,23 @@ export async function POST(request) {
       login = true
     }
 
+    console.log(results)
+
     connection.end()
 
-    return NextResponse.json({ login, results })
+    const response = NextResponse.json({ login, results })
+
+    const userData = {
+      auth: true,
+      id: results[0].id,
+    };
+
+    response.cookies.set('auth', JSON.stringify(userData), { httpOnly: true, secure: false, maxAge: 60 * 60 * 24 });
+    return response;
+
+    
   } catch (err) {
+    console.error(err)
     console.error('ERROR: API - ', err.message)
     const response = {
       error: err.message,
